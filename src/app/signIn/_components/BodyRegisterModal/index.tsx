@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { View, TouchableOpacity, Text, Keyboard } from "react-native";
-import { UserRound, Eye, EyeOff, Lock } from "lucide-react-native";
+import { View, TouchableOpacity, Text, Keyboard, Alert } from "react-native";
 import { Input } from "@/components/Input";
 import theme from "@/theme";
 import { Link } from "expo-router";
@@ -13,6 +12,11 @@ import { FormProps } from "./types";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorInput } from "@/components/ErrorInput";
 import { createSchemaForm } from "./schema";
+import { useUserStore } from "@/store/CardStore";
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+import { useNetInfo } from "@react-native-community/netinfo";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseAuth } from "@/config";
 
 interface Props {
   logado: boolean;
@@ -20,7 +24,9 @@ interface Props {
 
 export function BodyRegisterModal({ logado }: Props) {
   const schemaForm = createSchemaForm(logado);
-
+  const { addUser } = useUserStore()
+  const netInfo = useNetInfo();
+  const [isLoading, setIsLoading] = useState(false);
   const methods = useForm<FormProps>({
     criteriaMode: 'all',
     mode: 'all',
@@ -35,9 +41,24 @@ export function BodyRegisterModal({ logado }: Props) {
   
   const { control, handleSubmit, formState: { errors, isSubmitting  }  } = methods;
 
-  function handleLogin(login: FormProps){
-    Keyboard.dismiss()
-    console.log(login)
+  const handleLogin = async ({ email, password }: FormProps) => {
+    try {
+      Keyboard.dismiss()
+      setIsLoading(true);
+  
+      if (!netInfo.isConnected) {
+        return Alert.alert('Opss', 'Verifique a conexão de internet.')
+      }
+      
+      const user = await signInWithEmailAndPassword(firebaseAuth, email, password);
+      console.log(user)
+      user ? addUser(user as any) :  Alert.alert('Atenção!', 'Não foi possível obter informações do usuário.');
+
+    } catch (error: any) {
+      Alert.alert('Atenção!', `Ocorreu um erro ao autenticar. Verifique o login ou senha.`);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -52,7 +73,7 @@ export function BodyRegisterModal({ logado }: Props) {
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
             <Input >
-              <UserRound color={theme.COLORS.zinc[500]} size={25} style={{ marginLeft: 15 }} />
+              <FontAwesome5 name="user-alt" color={theme.COLORS.zinc[500]}  size={20} style={{ marginLeft: 15}} />
               <Input.Field
                 autoCapitalize="none"
                 inputMode="email"

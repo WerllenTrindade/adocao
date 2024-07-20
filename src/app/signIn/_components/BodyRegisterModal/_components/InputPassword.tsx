@@ -1,7 +1,8 @@
 import { ErrorInput } from "@/components/ErrorInput";
 import { Input } from "@/components/Input";
 import theme from "@/theme";
-import { Eye, EyeOff, Lock } from "lucide-react-native";
+import Fontisto from '@expo/vector-icons/Fontisto'
+import Entypo from '@expo/vector-icons/Entypo'
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { View } from "react-native";
@@ -25,7 +26,7 @@ export function InputPassword({ placeholder, name}: Props){
     render={({ field: { onChange, onBlur, value } }) => (
       <View>
       <Input>
-        <Lock color={theme.COLORS.zinc[500]} size={25} style={{ marginLeft: 15 }} />
+        <Fontisto name="locked" color={theme.COLORS.zinc[500]} size={20} style={{ marginLeft: 15 }} />
         <Input.Field
           secureTextEntry={!passwordVisible}
           onChangeText={onChange}
@@ -36,9 +37,9 @@ export function InputPassword({ placeholder, name}: Props){
         <TouchableOpacity activeOpacity={0.7} onPress={() => setPasswordVisible(state => !state)}>
           {
             passwordVisible ?
-              <Eye color={theme.COLORS.zinc[500]} size={25} style={{ marginRight: 15 }} />
+              <Entypo name="eye" color={theme.COLORS.attention} size={25} style={{ marginRight: 15 }} />
               :
-              <EyeOff color={theme.COLORS.zinc[500]} size={25} style={{ marginRight: 15 }} />
+              <Entypo name="eye-with-line" color={theme.COLORS.zinc[500]} size={25} style={{ marginRight: 15 }} />
           }
         </TouchableOpacity>
       </Input>

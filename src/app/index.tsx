@@ -5,5 +5,5 @@ import SignIn from './signIn'
 import Walcome from './walcome'
 
 export default function Index(){
-  return <SignIn />
+  return <Walcome />
 }

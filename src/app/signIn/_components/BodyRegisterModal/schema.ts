@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const createSchemaForm = (isLoggedIn: boolean) => {
+  console.log('aqui')
   const baseSchema = z.object({
     email: z.string()
       .min(1, { message: "Este campo deve ser preenchido." })

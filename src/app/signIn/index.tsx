@@ -6,13 +6,13 @@ import theme from '@/theme';
 
 import { VersionApp } from '@/components/VersionApp';
 import { BodyRegisterModal } from './_components/BodyRegisterModal';
-const image = {uri: '../..'};
+
+
 export default function SignIn() {
   const [logado, setLogado] = useState(true);
 
   return (
     <ImageBackground source={require("../../assets/split_background.png")} style={styles.container}>
-      {/* <View style={styles.diagonalBackground} /> */}
 
       {/* Header */}
       <KeyboardAvoidingView  behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled>
@@ -26,10 +26,10 @@ export default function SignIn() {
           </Text>
         </View>
 
-
         {/* Modal Login */}
         <BodyRegisterModal logado={logado} />
         </KeyboardAvoidingView>
+
       {/* Footer Version */}
       <View style={{justifyContent: 'flex-end', flex: 1}}>
       <VersionApp/>

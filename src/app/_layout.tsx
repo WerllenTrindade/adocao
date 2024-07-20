@@ -9,6 +9,7 @@ import {
 } from '@expo-google-fonts/inter'
 import { Loading } from "@/components/Loading";
 import theme from "@/theme";
+import { OfflineBanner } from "@/components/OfflineBanner";
 
 export default function Layout(){
   const [fontsLoad] = useFonts({
@@ -25,6 +26,7 @@ export default function Layout(){
     <SafeAreaView style={{flex: 1, backgroundColor: theme.COLORS.zinc[200]}}>
       <StatusBar barStyle="light-content" />
         <Slot />
+        {/* <OfflineBanner/> */}
     </SafeAreaView>
   )
 }
